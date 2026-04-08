@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mariana's Galactic Wishlist | Cloud Edition</title>
+    <style>
+        :root {
+            --force-blue: #00d2ff;
+            --star-gold: #ffe81f;
+            --space-black: #0b0b0b;
+            --sith-red: #ff4444;
+        }
+
+        body {
+            background-color: var(--space-black);
+            /* Fondo de estrellas */
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.1) 1px, transparent 30px);
+            background-size: 550px 550px, 350px 350px;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--star-gold);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 232, 31, 0.5);
+        }
+
+        .mariana-tag {
+            color: white;
+            font-size: 1.2rem;
+            border: 2px solid var(--force-blue);
+            padding: 5px 25px;
+            display: inline-block;
+            border-radius: 50px;
+            box-shadow: 0 0 15px var(--force-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0, 210, 255, 0.15);
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: 300;
+            color: var(--force-blue);
+            margin-bottom: 25px;
+        }
+
+        .input-group { margin-bottom: 15px; }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 5px;
+            margin-left: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        input:focus { border-color: var(--force-blue); }
+
+        .btn-add {
+            width: 100%;
+            padding: 15px;
+            background: var(--star-gold);
+            color: black;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        .btn-add:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px var(--star-gold);
+        }
+
+        .wishlist {
+            list-style: none;
+            padding: 0;
+            margin-top: 40px;
+        }
+
+        .wish-item {
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 5px solid var(--star-gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.4s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .wish-info b { color: var(--star-gold); font-size: 1.1rem; }
+        .wish-info small { color: var(--force-blue); display: block; margin-top: 4px; }
+
+        .delete-btn {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid var(--sith-red);
+            color: var(--sith-red);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .delete-btn:hover { background: var(--sith-red); color: white; }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            color: #444;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Star Wish</div>
+        <div class="mariana-tag">Protocolo de Mariana</div>
+    </header>
+
+    <div class="container">
+        <h2>Transmisión de Deseos</h2>
+        
+        <div class="input-group">
+            <label>Nombre del Regalo</label>
+            <input type="text" id="giftInput" placeholder="Ej: Droide BB-8 articulado">
+        </div>
+
+        <div class="input-group">
+            <label>Prioridad en la Fuerza</label>
+            <select id="priorityInput">
+                <option value="Padawan">Padawan (Baja)</option>
+                <option value="Jedi">Caballero Jedi (Media)</option>
+                <option value="Maestro">Maestro Jedi (Alta)</option>
+            </select>
+        </div>
+
+        <button class="btn-add" onclick="saveWish()">Enviar a la Holocron</button>
+
+        <ul class="wishlist" id="wishlist">
+            </ul>
+    </div>
+
+    <footer>
+        ING3DNT Logistics & Cloud Systems 2026
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        // 1. Configuración de Firebase con tu URL
+        const firebaseConfig = {
+            databaseURL: "https://deseosmariana-default-rtdb.firebaseio.com"
+        };
+        
+        // 2. Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // 3. Función para GUARDAR un regalo
+        function saveWish() {
+            const gift = document.getElementById('giftInput').value;
+            const priority = document.getElementById('priorityInput').value;
+
+            if (gift.trim() === '') {
+                alert('¡Escribe un deseo, joven Padawan!');
+                return;
+            }
+
+            // Enviamos el objeto a la nube
+            database.ref('regalos/').push({
+                nombre: gift,
+                rango: priority,
+                timestamp: Date.now()
+            });
+
+            document.getElementById('giftInput').value = '';
+        }
+
+        // 4. Función para LEER en tiempo real (Sincronización)
+        database.ref('regalos/').on('value', (snapshot) => {
+            const list = document.getElementById('wishlist');
+            list.innerHTML = ''; // Limpiar lista actual
+
+            snapshot.forEach((childSnapshot) => {
+                const data = childSnapshot.val();
+                const key = childSnapshot.key;
+
+                // Construimos la tarjeta visual
+                const li = document.createElement('li');
+                li.className = 'wish-item';
+                li.innerHTML = `
+                    <div class="wish-info">
+                        <b>${data.nombre}</b>
+                        <small>Rango: ${data.rango}</small>
+                    </div>
+                    <button class="delete-btn" onclick="deleteWish('${key}')">Eliminar</button>
+                `;
+                list.appendChild(li);
+            });
+        });
+
+        // 5. Función para BORRAR un regalo
+        function deleteWish(key) {
+            if(confirm('¿Seguro que quieres borrar este deseo de la galaxia?')) {
+                database.ref('regalos/' + key).remove();
+            }
+        }
+    </script>
+</body>
+</html>
